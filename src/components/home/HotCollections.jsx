@@ -1,7 +1,18 @@
 import React from "react";
+import OwlCarousel from 'react-owl-carousel';
+import 'owl.carousel/dist/assets/owl.carousel.css';
+import 'owl.carousel/dist/assets/owl.theme.default.css';
 import { Link } from "react-router-dom";
 
 const HotCollections = ({hotCollections}) => {
+
+  const responsive = {
+      0: {items: 1},
+      576: {items: 2},
+      768: {items: 3},
+      1200: {items: 4}
+    }
+ 
 
   return (
     <section id="section-collections" className="no-bottom">
@@ -13,9 +24,10 @@ const HotCollections = ({hotCollections}) => {
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
+          {hotCollections.length > 0 &&
+          <OwlCarousel className="hot-collections_carousel" items={4} loop margin={10} nav responsive={responsive}>
           {hotCollections.map(({id, authorImage, code, nftImage, title}) => (
-            <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={id}>
-              <div className="nft_coll">
+              <div className="nft_coll" key={id}>
                 <div className="nft_wrap">
                   <Link to="/item-details">
                     <img src={nftImage} className="lazy img-fluid" alt="" />
@@ -34,8 +46,8 @@ const HotCollections = ({hotCollections}) => {
                   <span>ERC-{code}</span>
                 </div>
               </div>
-            </div>
           ))}
+          </OwlCarousel> }
         </div>
       </div>
     </section>

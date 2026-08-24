@@ -8,6 +8,8 @@ const Explore = () => {
      // Does this work?
   }, []);
 
+  
+
   return (
     <div id="wrapper">
       <div className="no-bottom no-top" id="content">
