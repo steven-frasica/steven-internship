@@ -33,6 +33,7 @@ const HotCollections = ({ hotCollections, loading, error }) => {
               margin={10}
               nav
               responsive={responsive}
+              key="loading"
             >
               {emptyArray.map((item, index) => {
                 return (
@@ -72,6 +73,7 @@ const HotCollections = ({ hotCollections, loading, error }) => {
                 margin={10}
                 nav
                 responsive={responsive}
+                key="loaded"
               >
                 {hotCollections.map(
                   ({ id, authorImage, code, nftImage, title }) => (
