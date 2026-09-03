@@ -32,7 +32,7 @@ const Home = () => {
     getHotCollections()
   }, [])
 
-
+ 
 
   return (
     <div id="wrapper">
