@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import AuthorImage from "../../images/author_thumbnail.jpg";
 import nftImage from "../../images/nftImage.jpg";
 
-const NewItems = () => {
+const NewItems = ({ newItems }) => {
   return (
     <section id="section-items" className="no-bottom">
       <div className="container">
@@ -14,21 +14,21 @@ const NewItems = () => {
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
-          {new Array(4).fill(0).map((_, index) => (
-            <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={index}>
+          {newItems.map(({ id, authorId, authorImage, nftImage, nftId, title, price, likes, expiryDate}) => (
+            <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={id}>
               <div className="nft__item">
                 <div className="author_list_pp">
                   <Link
-                    to="/author"
+                    to={`/author/${authorId}`}
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
                     title="Creator: Monica Lucas"
                   >
-                    <img className="lazy" src={AuthorImage} alt="" />
+                    <img className="lazy" src={authorImage} alt="" />
                     <i className="fa fa-check"></i>
                   </Link>
                 </div>
-                <div className="de_countdown">5h 30m 32s</div>
+                <div className="de_countdown">{expiryDate}</div>
 
                 <div className="nft__item_wrap">
                   <div className="nft__item_extra">
@@ -49,7 +49,7 @@ const NewItems = () => {
                     </div>
                   </div>
 
-                  <Link to="/item-details">
+                  <Link to={`/item-details/${nftId}`}>
                     <img
                       src={nftImage}
                       className="lazy nft__item_preview"
@@ -59,12 +59,12 @@ const NewItems = () => {
                 </div>
                 <div className="nft__item_info">
                   <Link to="/item-details">
-                    <h4>Pinky Ocean</h4>
+                    <h4>{title}</h4>
                   </Link>
-                  <div className="nft__item_price">3.08 ETH</div>
+                  <div className="nft__item_price">{price} ETH</div>
                   <div className="nft__item_like">
                     <i className="fa fa-heart"></i>
-                    <span>69</span>
+                    <span>{likes}</span>
                   </div>
                 </div>
               </div>

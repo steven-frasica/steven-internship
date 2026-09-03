@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import BrowseByCategory from "../components/home/BrowseByCategory";
 import HotCollections from "../components/home/HotCollections";
 import Landing from "../components/home/Landing";
@@ -9,6 +9,7 @@ import axios from "axios";
 
 const Home = () => {
   const [hotCollections, setHotCollections] = useState([]);
+  const [newItems, setNewItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -28,8 +29,16 @@ const Home = () => {
     }
   }
 
+  async function getNewItems() {
+    const { data } = await axios.get("https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems")
+    console.log(data)
+    setNewItems(data)
+  }
+
+
   useEffect(() => {
     getHotCollections()
+    getNewItems();
   }, [])
 
  
@@ -41,7 +50,7 @@ const Home = () => {
         <Landing />
         <LandingIntro />
         <HotCollections hotCollections={hotCollections} loading={loading} error={error}/>
-        <NewItems />
+        <NewItems newItems={newItems}/>
         <TopSellers />
         <BrowseByCategory />
       </div>
