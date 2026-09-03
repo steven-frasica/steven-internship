@@ -10,8 +10,10 @@ import axios from "axios";
 const Home = () => {
   const [hotCollections, setHotCollections] = useState([]);
   const [newItems, setNewItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [hotCollectionsLoading, setHotCollectionsLoading] = useState(true);
+  const [newItemsLoading, setNewItemsLoading] = useState(true);
+  const [hotCollectionsError, setHotCollectionsError] = useState(null);
+  const [newItemsError, setNewItemsError] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -23,16 +25,23 @@ const Home = () => {
       setHotCollections(data)
     }
     catch (err) {
-      setError(`Failed to load collection`)
+      setHotCollectionsError(`Failed to load collection`)
     } finally {
-      setLoading(false)
+      setHotCollectionsLoading(false)
     }
   }
 
   async function getNewItems() {
-    const { data } = await axios.get("https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems")
-    console.log(data)
-    setNewItems(data)
+    try {
+      const { data } = await axios.get("https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems")
+      console.log(data)
+      setNewItems(data)
+    }
+    catch (err) {
+      setNewItemsError(`Failed to load new items`)
+    } finally {
+      setNewItemsLoading(false)
+    }
   }
 
 
@@ -49,8 +58,8 @@ const Home = () => {
         <div id="top"></div>
         <Landing />
         <LandingIntro />
-        <HotCollections hotCollections={hotCollections} loading={loading} error={error}/>
-        <NewItems newItems={newItems}/>
+        <HotCollections hotCollections={hotCollections} loading={hotCollectionsLoading} error={hotCollectionsError}/>
+        <NewItems newItems={newItems} loading={newItemsLoading} error={newItemsError}/>
         <TopSellers />
         <BrowseByCategory />
       </div>
