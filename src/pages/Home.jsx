@@ -34,7 +34,6 @@ const Home = () => {
   async function getNewItems() {
     try {
       const { data } = await axios.get("https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems")
-      console.log(data)
       setNewItems(data)
     }
     catch (err) {

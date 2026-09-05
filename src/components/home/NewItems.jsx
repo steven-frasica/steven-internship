@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import OwlCarousel from "react-owl-carousel";
 import Skeleton from "../UI/Skeleton";
 
 const NewItems = ({ newItems, loading, error }) => {
+  // Shared time for each card to use
+  const [currentTime, setCurrentTime] = useState(Date.now());
+
   const responsive = {
     0: { items: 1 },
     576: { items: 2 },
@@ -12,6 +15,57 @@ const NewItems = ({ newItems, loading, error }) => {
   };
 
   const emptyArray = Array(4).fill(0);
+
+  useEffect(() => {
+    if (loading || newItems.length === 0) {
+      return;
+    }
+
+    let cancelId;
+
+    let lastSecond = Math.floor(Date.now() / 1000);
+
+    const updateCountdown = () => {
+      const now = Date.now();
+      const currentSecond = Math.floor(now / 1000);
+
+      if (lastSecond !== currentSecond) {
+        lastSecond = currentSecond;
+        setCurrentTime(now);
+      }
+      cancelId = requestAnimationFrame(updateCountdown);
+
+    };
+      cancelId = requestAnimationFrame(updateCountdown);
+    
+    return () => cancelAnimationFrame(cancelId);
+  }, [loading, newItems.length]);
+
+  const formatCountdown = (expiration) => {
+    if (!expiration) {
+      return "Expired";
+    }
+
+    const millisecondsLeft = expiration - currentTime;
+
+    if (millisecondsLeft <= 0) {
+      return "Expired";
+    }
+
+    const totalWholeSeconds = Math.floor(millisecondsLeft / 1000);
+
+    const seconds = totalWholeSeconds % 60;
+
+    const minutes = Math.floor((totalWholeSeconds % 3600) / 60);
+
+    const hours = Math.floor(totalWholeSeconds / 3600);
+
+    const secondsText = seconds.toString().padStart(2, "0");
+    const minutesText = minutes.toString().padStart(2, "0");
+    const hoursText = hours.toString();
+
+    return `${hoursText}h ${minutesText}m ${secondsText}s`;
+  };
 
   return (
     <section id="section-items" className="no-bottom">
@@ -40,7 +94,11 @@ const NewItems = ({ newItems, loading, error }) => {
                       <Skeleton width="50px" height="50px" borderRadius="50%" />
                     </div>
                     <div className="mb-3 ms-2">
-                      <Skeleton width="90px" height="18px" borderRadius="10px" />
+                      <Skeleton
+                        width="90px"
+                        height="18px"
+                        borderRadius="10px"
+                      />
                     </div>
                     <div className="nft__item_wrap">
                       <Skeleton width="100%" height="100%" borderRadius="8px" />
@@ -48,10 +106,18 @@ const NewItems = ({ newItems, loading, error }) => {
                     <div className="nft__item_info mt-3">
                       <Skeleton width="65%" height="18px" borderRadius="4px" />
                       <div className="mt-2">
-                        <Skeleton width="35%" height="16px" borderRadius="4px" />
+                        <Skeleton
+                          width="35%"
+                          height="16px"
+                          borderRadius="4px"
+                        />
                       </div>
                       <div className="mt-2 d-flex justify-content-end">
-                        <Skeleton width="42px" height="14px" borderRadius="4px" />
+                        <Skeleton
+                          width="42px"
+                          height="14px"
+                          borderRadius="4px"
+                        />
                       </div>
                     </div>
                   </div>
@@ -98,7 +164,9 @@ const NewItems = ({ newItems, loading, error }) => {
                           <i className="fa fa-check"></i>
                         </Link>
                       </div>
-                      <div className="de_countdown">{expiryDate}</div>
+                      <div className="de_countdown">
+                        {formatCountdown(expiryDate)}
+                      </div>
 
                       <div className="nft__item_wrap">
                         <div className="nft__item_extra">
