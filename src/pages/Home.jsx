@@ -60,9 +60,6 @@ const Home = () => {
     }
   }
 
-  
-
-
   useEffect(() => {
     getHotCollections()
     getNewItems();
