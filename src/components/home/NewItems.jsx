@@ -3,26 +3,15 @@ import { Link } from "react-router-dom";
 import OwlCarousel from "react-owl-carousel";
 import Skeleton from "../UI/Skeleton";
 
-const NewItems = ({ newItems, loading, error }) => {
-  // Shared time for each card to use
+const NewItemCountdown = ({ expiration }) => {
   const [currentTime, setCurrentTime] = useState(Date.now());
 
-  const responsive = {
-    0: { items: 1 },
-    576: { items: 2 },
-    768: { items: 3 },
-    1200: { items: 4 },
-  };
-
-  const emptyArray = Array(4).fill(0);
-
   useEffect(() => {
-    if (loading || newItems.length === 0) {
-      return;
+    if (!expiration) {
+      return undefined;
     }
 
     let cancelId;
-
     let lastSecond = Math.floor(Date.now() / 1000);
 
     const updateCountdown = () => {
@@ -33,39 +22,45 @@ const NewItems = ({ newItems, loading, error }) => {
         lastSecond = currentSecond;
         setCurrentTime(now);
       }
-      cancelId = requestAnimationFrame(updateCountdown);
 
+      cancelId = requestAnimationFrame(updateCountdown);
     };
-      cancelId = requestAnimationFrame(updateCountdown);
-    
+
+    cancelId = requestAnimationFrame(updateCountdown);
+
     return () => cancelAnimationFrame(cancelId);
-  }, [loading, newItems.length]);
+  }, [expiration]);
 
-  const formatCountdown = (expiration) => {
-    if (!expiration) {
-      return "Expired";
-    }
+  if (!expiration) {
+    return <div className="de_countdown">Expired</div>;
+  }
 
-    const millisecondsLeft = expiration - currentTime;
+  const millisecondsLeft = expiration - currentTime;
 
-    if (millisecondsLeft <= 0) {
-      return "Expired";
-    }
+  if (millisecondsLeft <= 0) {
+    return <div className="de_countdown">Expired</div>;
+  }
 
-    const totalWholeSeconds = Math.floor(millisecondsLeft / 1000);
+  const totalWholeSeconds = Math.floor(millisecondsLeft / 1000);
+  const seconds = totalWholeSeconds % 60;
+  const minutes = Math.floor((totalWholeSeconds % 3600) / 60);
+  const hours = Math.floor(totalWholeSeconds / 3600);
+  const secondsText = seconds.toString().padStart(2, "0");
+  const minutesText = minutes.toString().padStart(2, "0");
 
-    const seconds = totalWholeSeconds % 60;
+  return <div className="de_countdown">{`${hours}h ${minutesText}m ${secondsText}s`}</div>;
+};
 
-    const minutes = Math.floor((totalWholeSeconds % 3600) / 60);
+const NewItems = ({ newItems, loading, error }) => {
 
-    const hours = Math.floor(totalWholeSeconds / 3600);
-
-    const secondsText = seconds.toString().padStart(2, "0");
-    const minutesText = minutes.toString().padStart(2, "0");
-    const hoursText = hours.toString();
-
-    return `${hoursText}h ${minutesText}m ${secondsText}s`;
+  const responsive = {
+    0: { items: 1 },
+    576: { items: 2 },
+    768: { items: 3 },
+    1200: { items: 4 },
   };
+
+  const emptyArray = Array(4).fill(0);
 
   return (
     <section id="section-items" className="no-bottom">
@@ -164,9 +159,7 @@ const NewItems = ({ newItems, loading, error }) => {
                           <i className="fa fa-check"></i>
                         </Link>
                       </div>
-                      <div className="de_countdown">
-                        {formatCountdown(expiryDate)}
-                      </div>
+                      <NewItemCountdown expiration={expiryDate} />
 
                       <div className="nft__item_wrap">
                         <div className="nft__item_extra">
