@@ -5,6 +5,7 @@ import Skeleton from "../UI/Skeleton";
 
 const ExploreItems = ({ exploreItems, loading, error }) => {
   const [visibleCount, setVisibleCount] = useState(8);
+  const [sortBy, setSortBy] = useState("");
 
   const emptyArray = Array(8).fill(0);
 
@@ -14,10 +15,24 @@ const ExploreItems = ({ exploreItems, loading, error }) => {
     );
   };
 
+  const sortedItems = [...exploreItems];
+
+  if (sortBy === "price_low_to_high") {
+    sortedItems.sort((a, b) => a.price - b.price);
+  }
+
+  if (sortBy === "price_high_to_low") {
+    sortedItems.sort((a, b) => b.price - a.price);
+  }
+
+  if (sortBy === "likes_high_to_low") {
+    sortedItems.sort((a, b) => b.likes - a.likes);
+  }
+
   return (
     <>
       <div>
-        <select id="filter-items" defaultValue="">
+        <select id="filter-items" value={sortBy} onChange={(event) => setSortBy(event.target.value)}>
           <option value="">Default</option>
           <option value="price_low_to_high">Price, Low to High</option>
           <option value="price_high_to_low">Price, High to Low</option>
@@ -61,7 +76,7 @@ const ExploreItems = ({ exploreItems, loading, error }) => {
           <p>{error}</p>
         </div>
       ) : (
-        exploreItems
+        sortedItems
           .slice(0, visibleCount)
           .map(
             ({
