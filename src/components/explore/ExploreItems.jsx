@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import AuthorImage from "../../images/author_thumbnail.jpg";
-import nftImage from "../../images/nftImage.jpg";
+import Countdown from "../UI/Countdown";
 
 const ExploreItems = ({ exploreItems }) => {
   return (
@@ -31,7 +30,7 @@ const ExploreItems = ({ exploreItems }) => {
                 <i className="fa fa-check"></i>
               </Link>
             </div>
-            <div className="de_countdown">{expiryDate}</div>
+            <Countdown expiration={expiryDate} />
 
             <div className="nft__item_wrap">
               <div className="nft__item_extra">
