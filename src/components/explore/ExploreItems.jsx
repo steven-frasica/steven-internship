@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Countdown from "../UI/Countdown";
 import Skeleton from "../UI/Skeleton";
 
-const ExploreItems = ({ exploreItems, loading, error }) => {
+const ExploreItems = ({ exploreItems, loading, error, sortBy, setSortBy }) => {
   const [visibleCount, setVisibleCount] = useState(8);
-  const [sortBy, setSortBy] = useState("");
 
   const emptyArray = Array(8).fill(0);
 
@@ -14,20 +13,6 @@ const ExploreItems = ({ exploreItems, loading, error }) => {
       Math.min(currentCount + 4, exploreItems.length),
     );
   };
-
-  const sortedItems = [...exploreItems];
-
-  if (sortBy === "price_low_to_high") {
-    sortedItems.sort((a, b) => a.price - b.price);
-  }
-
-  if (sortBy === "price_high_to_low") {
-    sortedItems.sort((a, b) => b.price - a.price);
-  }
-
-  if (sortBy === "likes_high_to_low") {
-    sortedItems.sort((a, b) => b.likes - a.likes);
-  }
 
   return (
     <>
@@ -76,7 +61,7 @@ const ExploreItems = ({ exploreItems, loading, error }) => {
           <p>{error}</p>
         </div>
       ) : (
-        sortedItems
+        exploreItems
           .slice(0, visibleCount)
           .map(
             ({

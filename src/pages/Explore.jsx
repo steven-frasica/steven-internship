@@ -6,29 +6,37 @@ import axios from "axios";
 
 const Explore = () => {
   const [exploreItems, setExploreItems] = useState([]);
+  const [sortBy, setSortBy] = useState("");
   const [exploreItemsLoading, setExploreItemsLoading] = useState(true);
   const [exploreItemsError, setExploreItemsError] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    // Does this work?
   }, []);
 
-  async function getExploreItems() {
-    try {
-      const { data } = await axios.get("https://us-central1-nft-cloud-functions.cloudfunctions.net/explore")
-      setExploreItems(data)
-    }
-    catch (error) {
-      setExploreItemsError(`Failed to load explore items`)
-    } finally {
-      setExploreItemsLoading(false)
-    }
-  }
-
   useEffect(() => {
-    getExploreItems()
-  }, [])
+    async function getExploreItems() {
+      setExploreItemsLoading(true);
+      setExploreItemsError(null);
+
+      try {
+        const { data } = await axios.get(
+          "https://us-central1-nft-cloud-functions.cloudfunctions.net/explore",
+          {
+            params: sortBy ? { filter: sortBy } : {},
+          },
+        );
+        setExploreItems(data);
+      }
+      catch (error) {
+        setExploreItemsError(`Failed to load explore items`);
+      } finally {
+        setExploreItemsLoading(false);
+      }
+    }
+
+    getExploreItems();
+  }, [sortBy]);
 
   return (
     <div id="wrapper">
@@ -55,7 +63,13 @@ const Explore = () => {
         <section aria-label="section">
           <div className="container">
             <div className="row">
-              <ExploreItems exploreItems={exploreItems} loading={exploreItemsLoading} error={exploreItemsError}/>
+              <ExploreItems
+                exploreItems={exploreItems}
+                loading={exploreItemsLoading}
+                error={exploreItemsError}
+                sortBy={sortBy}
+                setSortBy={setSortBy}
+              />
             </div>
           </div>
         </section>
