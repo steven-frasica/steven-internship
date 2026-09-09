@@ -1,10 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AuthorBanner from "../images/author_banner.jpg";
 import AuthorItems from "../components/author/AuthorItems";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import AuthorImage from "../images/author_thumbnail.jpg";
+import axios from "axios";
 
 const Author = () => {
+  const [author, setAuthor] = useState(null);
+  console.log(author);
+  // useParams() gets the authorId from the Route in App.jsx
+  const { authorId } = useParams();
+
+  useEffect(() => {
+    async function getAuthorInfo() {
+      // use authorId from useParams in the fetch request
+      const { data } = await axios.get(
+        `https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${authorId}`,
+      );
+      setAuthor(data);
+      // console.log(data)
+    }
+    // Call async fn in useEffect
+    getAuthorInfo();
+  }, [authorId]);
+
+  if (!author) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div id="wrapper">
       <div className="no-bottom no-top" id="content">
@@ -30,8 +53,8 @@ const Author = () => {
                       <i className="fa fa-check"></i>
                       <div className="profile_name">
                         <h4>
-                          Monica Lucas
-                          <span className="profile_username">@monicaaaa</span>
+                          {author.authorName}
+                          <span className="profile_username">@{author.tag}</span>
                           <span id="wallet" className="profile_wallet">
                             UDHUHWudhwd78wdt7edb32uidbwyuidhg7wUHIFUHWewiqdj87dy7
                           </span>
