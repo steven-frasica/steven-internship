@@ -15,7 +15,7 @@ const TopSellers = ({ topSellers, loading, error }) => {
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
-          <div className="col-md-12">
+          <div className="col-md-12" data-aos="fade">
             {loading ? (
               <ol className="author_list">
                 {emptyArray.map((_, index) => {
