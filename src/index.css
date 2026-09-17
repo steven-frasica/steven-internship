@@ -10,3 +10,11 @@
 @import "./css/styles/style.css";
 @import "./css/colors/scheme-01.css";
 @import "./css/styles/coloring.css";
+
+#section-intro [data-aos="fade-up"] {
+  transform: translate3d(0, 30%, 0);
+}
+
+#section-intro [data-aos="fade-up"].aos-animate {
+  transform: translate3d(0, 0, 0);
+}
