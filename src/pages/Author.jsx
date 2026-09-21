@@ -13,6 +13,10 @@ const Author = () => {
   const { authorId } = useParams();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     async function getAuthorInfo() {
       setFollowing(false);
       setAuthor(null);
@@ -47,19 +51,39 @@ const Author = () => {
                   <div className="d_profile de-flex">
                     <div className="de-flex-col">
                       <div className="profile_avatar">
-                        <Skeleton width="150px" height="150px" borderRadius="50%" />
+                        <Skeleton
+                          width="150px"
+                          height="150px"
+                          borderRadius="50%"
+                        />
                         <i className="fa fa-check"></i>
                         <div className="profile_name">
                           <h4>
-                            <Skeleton width="220px" height="32px" borderRadius="6px" />
+                            <Skeleton
+                              width="220px"
+                              height="32px"
+                              borderRadius="6px"
+                            />
                             <div className="mt-2">
-                              <Skeleton width="140px" height="18px" borderRadius="4px" />
+                              <Skeleton
+                                width="140px"
+                                height="18px"
+                                borderRadius="4px"
+                              />
                             </div>
                             <div className="mt-2">
-                              <Skeleton width="420px" height="18px" borderRadius="4px" />
+                              <Skeleton
+                                width="420px"
+                                height="18px"
+                                borderRadius="4px"
+                              />
                             </div>
                             <div className="mt-2">
-                              <Skeleton width="72px" height="38px" borderRadius="6px" />
+                              <Skeleton
+                                width="72px"
+                                height="38px"
+                                borderRadius="6px"
+                              />
                             </div>
                           </h4>
                         </div>
@@ -68,9 +92,17 @@ const Author = () => {
                     <div className="profile_follow de-flex">
                       <div className="de-flex-col">
                         <div className="profile_follower">
-                          <Skeleton width="120px" height="18px" borderRadius="4px" />
+                          <Skeleton
+                            width="120px"
+                            height="18px"
+                            borderRadius="4px"
+                          />
                         </div>
-                        <Skeleton width="120px" height="40px" borderRadius="6px" />
+                        <Skeleton
+                          width="120px"
+                          height="40px"
+                          borderRadius="6px"
+                        />
                       </div>
                     </div>
                   </div>
@@ -82,21 +114,44 @@ const Author = () => {
                       <div className="tab-1">
                         <div className="row">
                           {loadingCards.map((_, index) => (
-                            <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={index}>
+                            <div
+                              className="col-lg-3 col-md-6 col-sm-6 col-xs-12"
+                              key={index}
+                            >
                               <div className="nft__item">
                                 <div className="author_list_pp">
-                                  <Skeleton width="50px" height="50px" borderRadius="50%" />
+                                  <Skeleton
+                                    width="50px"
+                                    height="50px"
+                                    borderRadius="50%"
+                                  />
                                 </div>
                                 <div className="nft__item_wrap">
-                                  <Skeleton width="100%" height="260px" borderRadius="8px" />
+                                  <Skeleton
+                                    width="100%"
+                                    height="260px"
+                                    borderRadius="8px"
+                                  />
                                 </div>
                                 <div className="nft__item_info">
-                                  <Skeleton width="70%" height="24px" borderRadius="4px" />
+                                  <Skeleton
+                                    width="70%"
+                                    height="24px"
+                                    borderRadius="4px"
+                                  />
                                   <div className="mt-2">
-                                    <Skeleton width="64px" height="18px" borderRadius="4px" />
+                                    <Skeleton
+                                      width="64px"
+                                      height="18px"
+                                      borderRadius="4px"
+                                    />
                                   </div>
                                   <div className="mt-2">
-                                    <Skeleton width="48px" height="18px" borderRadius="4px" />
+                                    <Skeleton
+                                      width="48px"
+                                      height="18px"
+                                      borderRadius="4px"
+                                    />
                                   </div>
                                 </div>
                               </div>
@@ -141,7 +196,9 @@ const Author = () => {
                       <div className="profile_name">
                         <h4>
                           {author.authorName}
-                          <span className="profile_username">@{author.tag}</span>
+                          <span className="profile_username">
+                            @{author.tag}
+                          </span>
                           <span id="wallet" className="profile_wallet">
                             {author.address}
                           </span>
@@ -154,8 +211,15 @@ const Author = () => {
                   </div>
                   <div className="profile_follow de-flex">
                     <div className="de-flex-col">
-                      <div className="profile_follower">{following ? author.followers + 1 : author.followers} followers</div>
-                      <button type="button" className="btn-main" onClick={() => setFollowing(!following)}>
+                      <div className="profile_follower">
+                        {following ? author.followers + 1 : author.followers}{" "}
+                        followers
+                      </div>
+                      <button
+                        type="button"
+                        className="btn-main"
+                        onClick={() => setFollowing(!following)}
+                      >
                         {following ? "Unfollow" : "Follow"}
                       </button>
                     </div>
@@ -165,7 +229,11 @@ const Author = () => {
 
               <div className="col-md-12">
                 <div className="de_tab tab_simple">
-                  <AuthorItems nftCollection={author.nftCollection} authorId={author.authorId} authorImage={author.authorImage} />
+                  <AuthorItems
+                    nftCollection={author.nftCollection}
+                    authorId={author.authorId}
+                    authorImage={author.authorImage}
+                  />
                 </div>
               </div>
             </div>
