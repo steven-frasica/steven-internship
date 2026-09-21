@@ -76,7 +76,7 @@ const HotCollections = ({ hotCollections, loading, error }) => {
                 key="loaded"
               >
                 {hotCollections.map(
-                  ({ id, authorImage, code, nftImage, nftId, title }) => (
+                  ({ id, authorId, authorImage, code, nftImage, nftId, title }) => (
                     <div className="nft_coll" key={id}>
                       <div className="nft_wrap">
                         <Link to={`/item-details/${nftId}`}>
@@ -88,7 +88,7 @@ const HotCollections = ({ hotCollections, loading, error }) => {
                         </Link>
                       </div>
                       <div className="nft_coll_pp">
-                        <Link to="/author">
+                        <Link to={`/author/${authorId}`}>
                           <img
                             className="lazy pp-coll"
                             src={authorImage}
