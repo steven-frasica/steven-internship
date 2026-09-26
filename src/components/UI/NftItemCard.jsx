@@ -13,6 +13,15 @@ const NftItemCard = ({
   expiryDate,
   showCountdown = false,
 }) => {
+  const itemPath = `/item-details/${nftId}`;
+  const itemUrl =
+    typeof window !== "undefined"
+      ? `${window.location.origin}${itemPath}`
+      : itemPath;
+  const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(itemUrl)}`;
+  const twitterShareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(itemUrl)}&text=${encodeURIComponent(title)}`;
+  const emailShareUrl = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(itemUrl)}`;
+
   return (
     <div className="nft__item">
       <div className="author_list_pp">
@@ -30,26 +39,26 @@ const NftItemCard = ({
             <button>Buy Now</button>
             <div className="nft__item_share">
               <h4>Share</h4>
-              <a href="" target="_blank" rel="noreferrer">
+              <a href={facebookShareUrl} target="_blank" rel="noreferrer">
                 <i className="fa fa-facebook fa-lg"></i>
               </a>
-              <a href="" target="_blank" rel="noreferrer">
+              <a href={twitterShareUrl} target="_blank" rel="noreferrer">
                 <i className="fa fa-twitter fa-lg"></i>
               </a>
-              <a href="" target="_blank" rel="noreferrer">
+              <a href={emailShareUrl}>
                 <i className="fa fa-envelope fa-lg"></i>
               </a>
             </div>
           </div>
         </div>
 
-        <Link to={`/item-details/${nftId}`}>
+        <Link to={itemPath}>
           <img src={nftImage} alt="" className="lazy nft__item_preview" />
         </Link>
       </div>
 
       <div className="nft__item_info">
-        <Link to={`/item-details/${nftId}`}>
+        <Link to={itemPath}>
           <h4>{title}</h4>
         </Link>
         <div className="nft__item_price">{price} ETH</div>
